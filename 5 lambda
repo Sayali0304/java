@@ -1,0 +1,78 @@
+interface Hello { 
+    void show(); } 
+public class HelloWorldLambda { 
+    public static void main(String[] args) { 
+        Hello h = () -> System.out.println("Hello World"); 
+        h.show(); 
+    } 
+} 
+ 
+OUTPUT:  
+ 
+  B] AIM: Write a program  using Lambda Expression with single parameters.  
+CODE: 
+interface Display { 
+   void show(String msg); 
+} 
+public class SingleParameterLambda { 
+    public static void main(String[] args) { 
+        Display d = msg -> System.out.println(msg); 
+        d.show("Welcome to Java");}} 
+ OUTPUT:  
+ 
+C] AIM: Write a Java program using Lambda Expression with multiple parameters to add two numbers.  
+CODE : 
+interface Add { 
+    int add(int a, int b); 
+} 
+ 
+public class AddLambda { 
+    public static void main(String[] args) { 
+        Add sum = (a, b) -> a + b; 
+        System.out.println("The sum of 10 + 20 is: " + sum.add(10, 20)); 
+    } 
+}:  
+ 
+OUTPUT:  
+ 
+D] AIM: Write a Java program using Lambda Expression to calculate the following:  
+11 
+ 
+ 1] Convert Fahrenheit to Celsius    
+ 2] Convert Kilometers to Miles.  
+CODE:  
+interface Temp { 
+    double convert(double value);} 
+interface Distance { 
+    double convert(double value);} 
+public class ConverterDemo { 
+    public static void main(String[] args) { 
+        Temp fahrenheitToCelsius = f -> (f - 32) * 5 / 9; 
+        System.out.println("98.6 F to C = " + fahrenheitToCelsius.convert(98.6)); 
+        Distance kmToMiles = km -> km * 0.621371; 
+        System.out.println("10 km to miles = " + kmToMiles.convert(10)); 
+    }} 
+ 
+OUTPUT:  
+ 
+E] AIM: Write a Java program using Lambda Expression with or without return keyword. 
+CODE:  
+interface Square { 
+    int calculate(int x);} 
+public class ReturnLambda { 
+    public static void main(String[] args) { 
+        Square s1 = x -> x * x; 
+        Square s2 = x -> { return x * x; }; 
+        System.out.println(s1.calculate(5)); 
+        System.out.println(s2.calculate(5));} } 
+ 
+OUTPUT:  
+ 
+F] AIM: Write a Java program using Lambda Expression to concatenate two strings. 
+CODE:  
+interface Concat { 
+    String join(String a, String b);} 
+public class StringConcatLambda { 
+    public static void main(String[] args) { 
+        Concat c = (a, b) -> a + b; 
+        System.out.println(c.join("Hello ", "World")); }}
