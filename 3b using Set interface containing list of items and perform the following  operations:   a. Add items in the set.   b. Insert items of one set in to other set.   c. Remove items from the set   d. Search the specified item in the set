@@ -1,0 +1,40 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public class SetOperations1 {
+    public static void main(String[] args) {
+
+        // a. Add items in the set
+        Set<String> set1 = new HashSet<>();
+        set1.add("Apple");
+        set1.add("Mango");
+        set1.add("Banana");
+
+        System.out.println("Set1 after adding elements:");
+        System.out.println(set1);
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("Grapes");
+        set2.add("Orange");
+
+        System.out.println("\nSet2:");
+        System.out.println(set2);
+
+        // b. Insert items of one set into other set
+        set1.addAll(set2);
+        System.out.println("\nSet1 after inserting Set2 into Set1:");
+        System.out.println(set1);
+
+        // c. Remove items from the set
+        set1.remove("Banana");
+        System.out.println("\nSet1 after removing 'Banana':");
+        System.out.println(set1);
+
+        // d. Search the specified item in the set
+        if (set1.contains("Mango")) {
+            System.out.println("\nMango is found in the set.");
+        } else {
+            System.out.println("\nMango is not found in the set.");
+        }
+    }
+}
