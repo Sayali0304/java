@@ -1,0 +1,352 @@
+A] AIM:  Write a program to demonstrate Spring AOP – before advice.  
+ 
+Code: 
+//Student Service 
+package com.codepulse.springexample; 
+import org.springframework.stereotype.Component; 
+ 
+@Component 
+public class StudentService { 
+    public void registerStudent() { 
+        System.out.println("Student registration completed."); 
+    } 
+} 
+ 
+//LoggingAspect 
+package com.codepulse.springexample; 
+import org.aspectj.lang.annotation.Aspect; 
+import org.aspectj.lang.annotation.Before; 
+import org.springframework.stereotype.Component; 
+ 
+@Aspect 
+@Component 
+public class LoggingAspect { 
+    @Before("execution(* com.codepulse.springexample.StudentService.registerStudent(..))") 
+    public void beforeAdvice() { 
+        System.out.println("Before Advice: Logging student registration..."); 
+    } 
+} 
+ 
+OUTPUT: 
+ 
+B] AIM:  Write a program to demonstrate Spring AOP – after advice 
+28 
+ 
+Code: 
+ 
+//BankMainApp 
+package com.bank.prac8b; 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext; 
+public class BankMainApp { 
+public static void main(String[] args) { 
+        ApplicationContext context = 
+                new AnnotationConfigApplicationContext(AppConfig.class); 
+        BankService bankServiceObj = 
+                context.getBean(BankService.class); 
+ 
+        bankServiceObj.withdrawAmount(5000); 
+    } 
+} 
+ 
+//AppConfig 
+package com.bank.prac8b; 
+import org.springframework.context.annotation.ComponentScan; 
+import org.springframework.context.annotation.Configuration; 
+import org.springframework.context.annotation.EnableAspectJAutoProxy; 
+@Configuration 
+@ComponentScan(basePackages = "com.bank.prac8b") 
+@EnableAspectJAutoProxy 
+public class AppConfig { 
+} 
+ 
+//TransactionAspect 
+import org.aspectj.lang.annotation.After; 
+import org.aspectj.lang.annotation.Aspect; 
+import org.springframework.stereotype.Component; 
+@Aspect 
+@Component 
+public class TransactionAspect { 
+    @After("execution(* com.bank.prac8b.BankService.withdrawAmount(..))") 
+    public void afterAdvice() { 
+        System.out.println("After Advice: Transaction completed. Logging details..."); 
+    } 
+} 
+ 
+//BankService 
+package com.bank.prac8b; 
+import org.springframework.stereotype.Component; 
+@Component 
+public class BankService { 
+    public void withdrawAmount(int amount) { 
+        System.out.println("Withdrawing amount: RS " + amount); 
+        System.out.println("Amount withdrawn successfully."); 
+    }} 
+29 
+ 
+ 
+OUTPUT: 
+ 
+C] AIM:  Write a program to demonstrate Spring AOP – around advice. 
+Code: 
+ 
+//AccountService 
+package com.bank.aoparounddemo; 
+import org.springframework.stereotype.Component; 
+@Component 
+public class AccountService { 
+ 
+    public void deposit(int amount) { 
+        System.out.println("Depositing amount: ₹" + amount); 
+    } 
+} 
+ 
+//AppConfig 
+package com.bank.aoparounddemo; 
+import org.springframework.context.annotation.ComponentScan; 
+import org.springframework.context.annotation.Configuration; 
+import org.springframework.context.annotation.EnableAspectJAutoProxy; 
+@Configuration 
+@ComponentScan(basePackages = "com.bank.aoparounddemo") 
+@EnableAspectJAutoProxy 
+public class AppConfig { 
+} 
+ 
+//LoggingAspect 
+package com.bank.aoparounddemo; 
+import org.aspectj.lang.ProceedingJoinPoint; 
+import org.aspectj.lang.annotation.Around; 
+import org.aspectj.lang.annotation.Aspect; 
+import org.springframework.stereotype.Component; 
+@Aspect 
+@Component 
+public class LoggingAspect { 
+    @Around("execution(* com.bank.aoparounddemo.AccountService.deposit(..))") 
+    public Object aroundAdvice(ProceedingJoinPoint joinPoint) throws Throwable { 
+        System.out.println("Around Advice: Before method execution"); 
+        Object result = joinPoint.proceed(); // calls target method 
+        System.out.println("Around Advice: After method execution"); 
+        return result; 
+    } 
+30 
+ 
+} 
+ 
+//BankApp 
+package com.bank.aoparounddemo; 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext; 
+public class BankApp { 
+    public static void main(String[] args) { 
+        ApplicationContext context = 
+                new AnnotationConfigApplicationContext(AppConfig.class); 
+        AccountService accountService = 
+                context.getBean(AccountService.class); 
+        accountService.deposit(3000); 
+    } 
+} 
+ 
+OUTPUT: 
+ 
+ 
+D] AIM: Write a program to demonstrate Spring AOP – after returning advice.  
+Code: 
+ 
+//AppConfig 
+package com.demo.app; 
+import org.springframework.context.annotation.ComponentScan; 
+import org.springframework.context.annotation.Configuration; 
+import org.springframework.context.annotation.EnableAspectJAutoProxy; 
+@Configuration 
+@ComponentScan("com.demo.app") 
+@EnableAspectJAutoProxy 
+public class AppConfig { 
+} 
+ 
+//Calculator 
+package com.demo.app; 
+public interface Calculator { 
+    int add(int a, int b); 
+} 
+ 
+//CalculatorMain 
+package com.demo.app; 
+import org.springframework.context.ApplicationContext; 
+31 
+ 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext; 
+public class CalculatorMain { 
+    public static void main(String[] args) { 
+        ApplicationContext context = 
+                new AnnotationConfigApplicationContext(AppConfig.class); 
+        Calculator c1Obj = context.getBean(Calculator.class); 
+        int result = c1Obj.add(5, 10); 
+        System.out.println("Result in Main Method: " + result); 
+    }} 
+//Calculatorlmpl 
+package com.demo.app; 
+import org.springframework.stereotype.Component; 
+@Component 
+public class Calculatorlmpl implements Calculator { 
+    @Override 
+    public int add(int a, int b) { 
+        System.out.println("Inside add() method"); 
+        return a + b; 
+    } 
+} 
+ 
+//LoggingAspect 
+package com.demo.app; 
+import org.aspectj.lang.annotation.AfterReturning; 
+import org.aspectj.lang.annotation.Aspect; 
+import org.springframework.stereotype.Component; 
+@Aspect 
+@Component 
+public class LoggingAspect { 
+    @AfterReturning( 
+        pointcut = "execution(* com.demo.app.Calculator.add(..))", 
+        returning = "result" 
+    ) 
+    public void afterReturningAdvice(int result) { 
+        System.out.println("After Returning Advice executed"); 
+        System.out.println("Returned value is: " + result); 
+    } 
+} 
+ 
+OUTPUT: 
+ 
+32 
+ 
+ 
+E] AIM: Write a program to demonstrate Spring AOP – after throwing advice.  
+Code: 
+ 
+//CalculatorMain 
+package com.demo.app; 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext; 
+public class CalculatorMain { 
+    public static void main(String[] args) { 
+        ApplicationContext context = 
+                new AnnotationConfigApplicationContext(AppConfig.class); 
+ 
+        Calculator cal = context.getBean(Calculator.class); 
+ 
+        try { 
+            cal.divide(10, 0); 
+        } catch (Exception e) { 
+            System.out.println("Exception handled in main method"); 
+        } 
+    } 
+} 
+ 
+//LoggingAspect 
+package com.demo.app; 
+import org.aspectj.lang.annotation.AfterThrowing; 
+import org.aspectj.lang.annotation.Aspect; 
+import org.springframework.stereotype.Component; 
+@Aspect 
+@Component 
+public class LoggingAspect { 
+    @AfterThrowing( 
+        pointcut = "execution(* com.demo.app.Calculator.divide(..))", 
+        throwing = "ex" 
+    ) 
+    public void logException(Exception ex) { 
+        System.out.println("After Throwing Advice executed"); 
+        System.out.println("Exception: " + ex.getMessage()); 
+    } 
+} 
+ 
+//CalculatorImpl 
+package com.demo.app; 
+import org.springframework.stereotype.Component; 
+@Component 
+public class CalculatorImpl implements Calculator { 
+    @Override 
+    public int divide(int a, int b) { 
+        System.out.println("Inside divide() method"); 
+        return a / b;   // will throw exception when b = 0 
+33 
+ 
+    } 
+} 
+ 
+//Calculator 
+package com.demo.app; 
+public interface Calculator { 
+    int divide(int a, int b); 
+} 
+ 
+//AppConfig 
+package com.demo.app; 
+import org.springframework.context.annotation.ComponentScan; 
+import org.springframework.context.annotation.Configuration; 
+import org.springframework.context.annotation.EnableAspectJAutoProxy; 
+ 
+@Configuration 
+@ComponentScan("com.demo.app") 
+@EnableAspectJAutoProxy 
+public class AppConfig { 
+} 
+ 
+OUTPUT: 
+ 
+ 
+F] AIM: Write a program to demonstrate Spring AOP – pointcuts. 
+Code: 
+//CalculatorMain  
+package com.demo.app; 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext; 
+public class CalculatorMain { 
+    public static void main(String[] args) { 
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class); 
+        // Get Calculator bean 
+        Calculator calObj = context.getBean(Calculator.class); 
+        // Call methods 
+        calObj.add(10, 20); 
+        calObj.divide(10, 2); 
+ 
+34 
+ 
+//Calculator 
+package com.demo.app; 
+import org.springframework.stereotype.Component; 
+@Component 
+public class Calculator { 
+    public void add(int a, int b) { 
+        System.out.println("Addition: " + (a + b)); 
+    } 
+    public void divide(int a, int b) { 
+        System.out.println("Division: " + (a / b)); 
+    } 
+} 
+//AppConfig 
+package com.demo.app; 
+import org.springframework.context.annotation.ComponentScan; 
+import org.springframework.context.annotation.Configuration; 
+import org.springframework.context.annotation.EnableAspectJAutoProxy; 
+@Configuration 
+@ComponentScan("com.demo.app") 
+@EnableAspectJAutoProxy 
+public class AppConfig { 
+} 
+//LoggingAspect 
+package com.demo.app; 
+import org.aspectj.lang.annotation.Aspect; 
+import org.aspectj.lang.annotation.Before; 
+import org.aspectj.lang.annotation.Pointcut; 
+import org.springframework.stereotype.Component; 
+@Aspect 
+@Component 
+public class LoggingAspect { 
+    // 1. Pointcut definition 
+    @Pointcut("execution(* com.demo.app.Calculator.*(..))") 
+    public void calculatorMethods() { 
+        // Pointcut signature method (empty body) 
+    } 
+    // 2. Before advice using the pointcut 
+    @Before("calculatorMethods()") 
+    public void beforeAdvice() { 
+        System.out.println("Before advice executed using pointcut"); }} 
