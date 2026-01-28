@@ -1,0 +1,177 @@
+
+ 
+PRACTICAL 7 
+A] AIM: Write a program to print “Hello World” using spring framework.  
+CODE: 
+// HelloWorld.java Program 
+package spring_example;    
+public class HelloWorld {       
+   private String message; 
+   // GetterSetter for variable 
+   public void setMessage(String message){       
+         this.message = message; 
+   } 
+   public void getMessage(){ 
+     System.out.println("Message : " + message); 
+   } 
+} 
+ // Main.java Program 
+package spring_example; 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.support.ClassPathXmlApplicationContext; 
+public class Main { 
+   public static void main(String[] args) { 
+      ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml"); 
+      HelloWorld obj = (HelloWorld) context.getBean("HelloWorld"); 
+      obj.getMessage(); 
+   } 
+} 
+<?xml version = "1.0" encoding = "UTF-8"?> 
+<beans xmlns = "http://www.springframework.org/schema/beans/" 
+   xmlns:xsi = "https://www.w3.org/2001/XMLSchema-instance" 
+   xsi:schemaLocation = "http://www.springframework.org/schema/beans/ 
+   http://www.springframework.org/schema/beans//spring-beans-3.0.xsd"> 
+   <bean id = "HelloWorld" class = "spring_example.HelloWorld"> 
+      <property name = "message" value = "Hello World!"/> 
+   </bean> 
+</beans> 
+ 
+OUTPUT: 
+24 
+ 
+ 
+B] AIM: Program to Demonstrate Dependency Injection via Setter Method 
+CODE:  
+package com.spring; //Student.java 
+public class Student { 
+    private String name; 
+    private String course; 
+    // No-argument constructor 
+    public Student() { 
+    } 
+    // Setter methods (used for DI) 
+    public void setName(String name) { 
+        this.name = name; 
+    } 
+    public void setCourse(String course) { 
+        this.course = course; 
+    } 
+    public void display() { 
+        System.out.println("Student Name: " + name); 
+        System.out.println("Course: " + course); 
+    } 
+} 
+<?xml version="1.0" encoding="UTF-8"?> //config.xml 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation=" 
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd"> 
+    <!-- Setter-Based Dependency Injection --> 
+    <bean id="studentBean" class="com.spring.Student"> 
+        <property name="name" value="Sayali"/> 
+        <property name="course" value="Spring Framework"/> 
+    </bean></beans> 
+package com.spring; //mainapp.java 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.support.ClassPathXmlApplicationContext; 
+public class MainApp { 
+    public static void main(String[] args) { 
+        ApplicationContext context =new ClassPathXmlApplicationContext("config.xml"); 
+        Student student = (Student) context.getBean("studentBean"); 
+        student.display();}} 
+ 
+OUTPUT: 
+25 
+ 
+ 
+C] AIM: Program to Demonstrate Dependency Injection via Constructor 
+Code: 
+ 
+//Employee.java 
+package com.spring; 
+public class Employee { 
+    private int id; 
+    private String name; 
+    // Constructor for DI 
+    public Employee(int id, String name) { 
+        this.id = id; 
+        this.name = name; 
+    } 
+    public void display() { 
+        System.out.println("Employee ID: " + id); 
+        System.out.println("Employee Name: " + name); 
+    } 
+} 
+//config.xml 
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation=" 
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd"> 
+ 
+    <!-- Constructor-Based Dependency Injection --> 
+    <bean id="employeeBean" class="com.spring.Employee"> 
+        <constructor-arg value="101"/> 
+        <constructor-arg value="SAYALI"/> 
+    </bean> 
+</beans> 
+//MainApp.java 
+package com.spring; 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.support.ClassPathXmlApplicationContext; 
+public class MainApp { 
+    public static void main(String[] args) { 
+        ApplicationContext context = 
+                new ClassPathXmlApplicationContext("config.xml"); 
+        Employee emp = (Employee) context.getBean("employeeBean"); 
+        emp.display(); 
+26 
+ 
+    } 
+} 
+OUTPUT: 
+ 
+ D] AIM: Write a program to demonstrate Autowiring. 
+ 
+Code: 
+public class State { 
+    private String name; 
+    public String getName() { return name; } 
+    public void setName(String s) { this.name = s; } 
+} 
+package com.codepulse.springexample; 
+import org.springframework.beans.factory.annotation.Autowired; 
+public class City { 
+    private int id; 
+    private String name; 
+    @Autowired 
+    private State state; 
+    public void setId(int id) { 
+        this.id = id; 
+    } 
+    public void setName(String name) { 
+        this.name = name; 
+    } 
+    public State getState() { 
+        return state; 
+    } 
+    public void showCityDetails() { 
+        System.out.println("City Id : " + id); 
+        System.out.println("City Name : " + name); 
+        System.out.println("State : " + state.getName()); 
+    } 
+} 
+package com.codepulse.springexample; 
+import org.springframework.context.ApplicationContext; 
+import org.springframework.context.support.ClassPathXmlApplicationContext; 
+public class DemoApplication { 
+    public static void main(String[] args) { 
+        ApplicationContext context = new ClassPathXmlApplicationContext("SpringConfig.xml"); 
+        City city = context.getBean("city", City.class); 
+        city.setId(1); 
+        city.setName("Mumbai"); 
+        city.getState().setName("Maharashtra"); 
+        city.showCityDetails(); 
+    } 
