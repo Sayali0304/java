@@ -1,0 +1,150 @@
+1. Java Generics Viva Questions
+
+Q1: What is a generic class?
+A: A generic class allows type parameters, so a single class can work with different data types without rewriting code.
+
+Q2: What is a generic method?
+A: A method with its own type parameter <T> that can operate on objects of various types.
+
+Q3: What are wildcards in Java Generics?
+A: ? represents an unknown type.
+
+<?> → any type
+
+<? extends T> → T or subclasses
+
+<? super T> → T or superclasses
+
+2. Java Collections – List
+
+Q4: Difference between List, ArrayList, and LinkedList?
+A:
+
+List is an interface.
+
+ArrayList → dynamic array, fast random access.
+
+LinkedList → doubly linked list, fast insert/delete.
+
+Q5: How do you iterate over a List?
+A: Using for-each, Iterator, or ListIterator.
+
+Q6: Difference between Iterator and ListIterator?
+A:
+
+Iterator → forward only.
+
+ListIterator → forward and backward, can modify list during iteration.
+
+3. Java Collections – Set
+
+Q7: Difference between Set and List?
+A:
+
+Set → no duplicate elements, unordered.
+
+List → ordered, allows duplicates.
+
+Q8: Difference between HashSet, LinkedHashSet, TreeSet?
+A:
+
+HashSet → unordered
+
+LinkedHashSet → insertion order
+
+TreeSet → sorted order
+
+Q9: How to check if an item exists in a Set?
+A: Using contains() method.
+
+4. Java Collections – Map
+
+Q10: Difference between Map and Set?
+A:
+
+Map → key-value pairs
+
+Set → only values (no duplicates)
+
+Q11: Difference between HashMap and TreeMap?
+A:
+
+HashMap → unordered, allows null key
+
+TreeMap → sorted by key, no null key
+
+Q12: How to retrieve value for a key?
+A: Using get(key) method.
+
+Q13: How to iterate over a Map?
+A: Using entrySet() with for-each or iterator.
+
+5. Lambda Expressions
+
+Q14: What is a lambda expression?
+A: A concise way to represent an anonymous function (implementation of functional interface).
+
+Q15: Syntax of a lambda with no parameter?
+A: () -> System.out.println("Hello World");
+
+Q16: Lambda with one parameter?
+A: x -> x * x;
+
+Q17: Lambda with multiple parameters?
+A: (a, b) -> a + b;
+
+Q18: Can a lambda return a value?
+A: Yes, if the functional interface method has a return type.
+
+Q19: Difference between lambda and anonymous inner class?
+A: Lambda is more concise, cannot have constructors, focuses on behavior.
+
+6. JSP
+
+Q20: What is JSP?
+A: Java Server Pages – allows embedding Java code in HTML to create dynamic web pages.
+
+Q21: Difference between JSP declarations, scriptlets, and expressions?
+A:
+
+Declaration <%! %> → declare variables/methods
+
+Scriptlet <% %> → execute Java code
+
+Expression <%= %> → output value
+
+Q22: What is JSP directive?
+A: Instructions to JSP engine, e.g., <%@ page %>
+
+Q23: How to connect JSP to database?
+A: Using JDBC API and configuring driver, connection, statements.
+
+Q24: Difference between include and forward in JSP?
+A:
+
+include → includes content at runtime
+
+forward → transfers control to another resource
+
+7. Spring Framework
+
+Q25: What is Spring?
+A: Lightweight framework for building Java applications with dependency injection and AOP.
+
+Q26: What is dependency injection (DI)?
+A: Technique where Spring injects required objects instead of creating them manually.
+
+Q27: Types of DI in Spring?
+A: Constructor-based and setter-based.
+
+Q28: What is Autowiring?
+A: Spring automatically injects dependencies without explicit configuration.
+
+Q29: What is Spring AOP?
+A: Aspect-Oriented Programming – separates cross-cutting concerns like logging, security.
+
+Q30: Types of AOP advice?
+A: Before, After, After-returning, After-throwing, Around.
+
+Q31: What is a pointcut?
+A: Expression that defines which methods should have advice applied.
